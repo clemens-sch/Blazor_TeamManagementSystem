@@ -1,0 +1,59 @@
+﻿@page "/teams"
+@using TeamManagement.Shared;
+
+<h3>TeamPage</h3>
+
+@code {
+	// search
+	private string searchString = "";
+	private Team team = new Team();
+	private List<Team> teams = new List<Team>();
+
+	// When page loads, this function is called
+	// - after the page has loaded - every team is displayed
+	protected override async Task OnInitializedAsync()
+	{
+		teams = teamservice.GetAll();
+	}
+
+	private bool Search(Team team)
+	{
+		if (string.IsNullOrWhiteSpace(searchString)) return true;
+		if (team.TeamName.Contains(searchString, StringComparison.OrdinalIgnoreCase)) return true;
+		{
+			return true;
+		}
+		return false;
+	}
+
+	private List<Team> GetAll()
+	{
+		teams = teamservice.GetAll();
+		return teams;
+	}
+
+	private void Add()
+	{
+		if(team.TeamId == 0)
+		{
+			teamservice.Add(team);
+		}
+		else
+		{
+			teamservice.Update(team);
+		}
+		team = new Team();
+		GetAll();
+	}
+
+	private void Update(Team record)
+	{
+		team = record;
+		StateHasChanged();
+	}
+	private void Delete(Team record)
+	{
+		teamservice.Delete(record);
+		GetAll();
+	}
+}

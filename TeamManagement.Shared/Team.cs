@@ -9,7 +9,7 @@ namespace TeamManagement.Shared
     public class Team
     {
         public int TeamId { get; set; }
-        public int TeamName { get; set; }
+        public string TeamName { get; set; }
         public List<Player> Players { get; set; }
     }
 }

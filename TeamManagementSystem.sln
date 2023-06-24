@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamManagementSystem", "TeamManagementSystem\TeamManagementSystem.csproj", "{E4D8851B-3972-414D-B597-279BAE117496}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamManagementSystem", "TeamManagementSystem\TeamManagementSystem.csproj", "{E4D8851B-3972-414D-B597-279BAE117496}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamManagement.Shared", "TeamManagement.Shared\TeamManagement.Shared.csproj", "{31F90CF2-59DA-4A21-B46B-9040EE8E7E4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamManagement.Shared", "TeamManagement.Shared\TeamManagement.Shared.csproj", "{31F90CF2-59DA-4A21-B46B-9040EE8E7E4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
