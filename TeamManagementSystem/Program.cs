@@ -2,15 +2,20 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
 using TeamManagementSystem;
+using TeamManagementSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+
 // DB-Connection with Connection-String -- in file: appsettings.json
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnString")));
+// register Services
+builder.Services.AddTransient<TeamService>();
+builder.Services.AddTransient<PlayerService>();
 
 
 var app = builder.Build();
