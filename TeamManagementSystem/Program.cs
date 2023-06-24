@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
+using MudBlazor.Services;
 using TeamManagementSystem;
 using TeamManagementSystem.Services;
 
@@ -16,6 +17,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 // register Services
 builder.Services.AddTransient<TeamService>();
 builder.Services.AddTransient<PlayerService>();
+
+// register MudBlazor service
+builder.Services.AddMudServices();
 
 
 var app = builder.Build();
