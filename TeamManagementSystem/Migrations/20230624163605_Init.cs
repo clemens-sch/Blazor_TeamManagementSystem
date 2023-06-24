@@ -2,7 +2,6 @@
 
 #nullable disable
 
-// creates folder "Migration" on how the DB should be created
 namespace TeamManagementSystem.Migrations
 {
     /// <inheritdoc />
@@ -17,7 +16,7 @@ namespace TeamManagementSystem.Migrations
                 {
                     TeamId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TeamName = table.Column<int>(type: "int", nullable: false)
+                    TeamName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

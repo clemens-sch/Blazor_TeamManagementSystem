@@ -1,7 +1,45 @@
 ﻿@page "/teams"
 @using TeamManagement.Shared;
+@using System.Linq
+@using System
+@inject MudBlazor.ISnackbar snackBar
 
-<h3>TeamPage</h3>
+ @*Add-Team - Inputfield with Button + Snackbar*@
+<MudCard Elevation="25">
+	<MudCardHeader>
+		<CardHeaderContent>
+			<MudText Typo="Typo.h6">Teams</MudText>
+		</CardHeaderContent>
+	</MudCardHeader>
+	<MudCardContent>
+		<EditForm OnValidSubmit="Add" Model="@team">
+			<MudTextField @bind-Value="team.TeamName" Label="Teamname"></MudTextField>
+			<br/>
+			<MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="Add"> Add Team</MudButton>
+		</EditForm>
+	</MudCardContent>
+</MudCard>
+<br />
+
+<MudTable Items="GetAll()" Hover="true" Filter="new Func<Team, bool>(Search)" @bind-team="team">
+	<ToolBarContent>
+		<MudText Typo="Typo.h6">Players</MudText>
+		<MudSpacer/>
+		<MudTextField @bind-Value="searchString" Placeholder="Search for Teams"></MudTextField>
+	</ToolBarContent>
+	<HeaderContent>
+		<MudTh>Team Name</MudTh>
+		<MudTh>Actions</MudTh>
+	</HeaderContent>
+	<RowTemplate>
+		<MudTd DataLabel="Team Name">@context.TeamName</MudTd>
+		<MudTd DataLabel="Actions">
+			<MudFab OnClick="@(() => Update(context))" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small"></MudFab>
+			<MudFab OnClick="@(() => Delete(context))" Color="Color.Secondary" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small"></MudFab>
+		</MudTd>
+	</RowTemplate>
+</MudTable>
+
 
 @code {
 	// search
@@ -20,9 +58,6 @@
 	{
 		if (string.IsNullOrWhiteSpace(searchString)) return true;
 		if (team.TeamName.Contains(searchString, StringComparison.OrdinalIgnoreCase)) return true;
-		{
-			return true;
-		}
 		return false;
 	}
 
@@ -34,13 +69,16 @@
 
 	private void Add()
 	{
-		if(team.TeamId == 0)
+		if(team.TeamId == 0 && team.TeamName != null)
 		{
 			teamservice.Add(team);
+			snackBar.Add($"Team {team.TeamName} Added", Severity.Success);
 		}
+		else if(team.TeamName == null) { snackBar.Add("Empty Input", Severity.Error); }
 		else
 		{
 			teamservice.Update(team);
+			snackBar.Add($"Team {team.TeamName} Updated", Severity.Success);
 		}
 		team = new Team();
 		GetAll();
@@ -55,5 +93,6 @@
 	{
 		teamservice.Delete(record);
 		GetAll();
+		snackBar.Add($"Team {team.TeamName} Deleted", Severity.Success);
 	}
 }

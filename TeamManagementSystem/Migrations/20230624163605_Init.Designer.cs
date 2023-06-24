@@ -11,7 +11,7 @@ using TeamManagementSystem;
 namespace TeamManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230623121529_Init")]
+    [Migration("20230624163605_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -62,8 +62,9 @@ namespace TeamManagementSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeamId"));
 
-                    b.Property<int>("TeamName")
-                        .HasColumnType("int");
+                    b.Property<string>("TeamName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TeamId");
 

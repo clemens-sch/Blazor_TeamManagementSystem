@@ -59,8 +59,9 @@ namespace TeamManagementSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeamId"));
 
-                    b.Property<int>("TeamName")
-                        .HasColumnType("int");
+                    b.Property<string>("TeamName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TeamId");
 
