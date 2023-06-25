@@ -11,7 +11,7 @@ using TeamManagementSystem;
 namespace TeamManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230625155654_Init")]
+    [Migration("20230625163417_Init")]
     partial class Init
     {
         /// <inheritdoc />

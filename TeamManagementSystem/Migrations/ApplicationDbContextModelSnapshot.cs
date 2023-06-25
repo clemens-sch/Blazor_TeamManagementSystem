@@ -9,80 +9,81 @@ using TeamManagementSystem;
 
 namespace TeamManagementSystem.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
-    {
-        protected override void BuildModel(ModelBuilder modelBuilder)
-        {
+	[DbContext(typeof(ApplicationDbContext))]
+	partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+	{
+		protected override void BuildModel(ModelBuilder modelBuilder)
+		{
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.7")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+			modelBuilder
+				.HasAnnotation("ProductVersion", "7.0.7")
+				.HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+			SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TeamManagement.Shared.Player", b =>
-                {
-                    b.Property<int>("PlayerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+			modelBuilder.Entity("TeamManagement.Shared.Player", b =>
+			{
+				b.Property<int>("PlayerId")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlayerId"));
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlayerId"));
 
-                    b.Property<int>("EPosition")
-                        .HasColumnType("int");
+				b.Property<string>("EPosition")
+					.HasColumnType("nvarchar(max)")
+					.IsRequired();
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+				b.Property<string>("FirstName")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+				b.Property<string>("LastName")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
+				b.Property<int>("TeamId")
+					.HasColumnType("int");
 
-                    b.HasKey("PlayerId");
+				b.HasKey("PlayerId");
 
-                    b.HasIndex("TeamId");
+				b.HasIndex("TeamId");
 
-                    b.ToTable("Player");
-                });
+				b.ToTable("Player");
+			});
 
-            modelBuilder.Entity("TeamManagement.Shared.Team", b =>
-                {
-                    b.Property<int>("TeamId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+			modelBuilder.Entity("TeamManagement.Shared.Team", b =>
+			{
+				b.Property<int>("TeamId")
+					.ValueGeneratedOnAdd()
+					.HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeamId"));
+				SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeamId"));
 
-                    b.Property<string>("TeamName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+				b.Property<string>("TeamName")
+					.IsRequired()
+					.HasColumnType("nvarchar(max)");
 
-                    b.HasKey("TeamId");
+				b.HasKey("TeamId");
 
-                    b.ToTable("Team");
-                });
+				b.ToTable("Team");
+			});
 
-            modelBuilder.Entity("TeamManagement.Shared.Player", b =>
-                {
-                    b.HasOne("TeamManagement.Shared.Team", "Team")
-                        .WithMany("Players")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+			modelBuilder.Entity("TeamManagement.Shared.Player", b =>
+			{
+				b.HasOne("TeamManagement.Shared.Team", "Team")
+					.WithMany("Players")
+					.HasForeignKey("TeamId")
+					.OnDelete(DeleteBehavior.Cascade)
+					.IsRequired();
 
-                    b.Navigation("Team");
-                });
+				b.Navigation("Team");
+			});
 
-            modelBuilder.Entity("TeamManagement.Shared.Team", b =>
-                {
-                    b.Navigation("Players");
-                });
+			modelBuilder.Entity("TeamManagement.Shared.Team", b =>
+			{
+				b.Navigation("Players");
+			});
 #pragma warning restore 612, 618
-        }
-    }
+		}
+	}
 }
