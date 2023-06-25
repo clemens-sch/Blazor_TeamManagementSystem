@@ -1,0 +1,129 @@
+﻿@page "/players"
+@using TeamManagement.Shared;
+@using System.Linq
+@using System
+@using MudBlazor;
+@inject MudBlazor.ISnackbar snackBar
+
+
+@*Add-Team - Inputfield with Button + Snackbar*@
+<MudCard Elevation="25">
+	<MudCardHeader>
+		<CardHeaderContent>
+			<MudText Typo="Typo.h6">Players</MudText>
+		</CardHeaderContent>
+	</MudCardHeader>
+	<MudCardContent>
+		<EditForm OnValidSubmit="Add" Model="@player">
+			<MudGrid>
+				<MudItem xs="12" sm="4" md="6">
+					<MudTextField Label="Lastname" Variant="Variant.Text" @bind-Value="player.LastName"></MudTextField>
+				</MudItem>
+				<MudItem xs="12" sm="4" md="6">
+					<MudTextField Label="Firstname" Variant="Variant.Text" @bind-Value="player.FirstName"></MudTextField>
+				</MudItem>
+				<MudItem xs="12" sm="4" md="6">
+					<MudSelect Label="Select Team" @bind-Value="team.TeamName">
+						@foreach (var team in teams)
+						{
+							<MudSelectItem Value="@team.TeamName">@team.TeamName</MudSelectItem>
+						}
+					</MudSelect>
+				</MudItem>
+				<MudItem xs="12" sm="4" md="6">
+					<MudSelect Label="Select Position" @bind-Value="player.EPosition">
+						@foreach (TeamManagement.Shared.Position position in Enum.GetValues(typeof(TeamManagement.Shared.Position)))
+						{
+							<MudSelectItem Value="@position">@position</MudSelectItem>
+						}
+					</MudSelect>
+				</MudItem>
+			</MudGrid>
+			<br/>
+			<MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="Add"> Add Player</MudButton>
+		</EditForm>
+	</MudCardContent>
+</MudCard>
+<br />
+
+<MudTable Items="GetAll()" Hover="true" Filter="new Func<Player, bool>(Search)" @bind-player="player">
+	<ToolBarContent>
+		<MudText Typo="Typo.h6">Players</MudText>
+		<MudSpacer />
+		<MudTextField @bind-Value="searchString" Placeholder="Search for Players"></MudTextField>
+	</ToolBarContent>
+	<HeaderContent>
+		<MudTh>Lastname</MudTh>
+		<MudTh>Firstname</MudTh>
+		<MudTh>Team</MudTh>
+		<MudTh>Position</MudTh>
+	</HeaderContent>
+	<RowTemplate>
+		<MudTd DataLabel="Team Name">@context.LastName</MudTd>
+		<MudTd DataLabel="Actions">
+			<MudFab OnClick="@(() => Update(context))" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small"></MudFab>
+			<MudFab OnClick="@(() => Delete(context))" Color="Color.Secondary" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small"></MudFab>
+		</MudTd>
+	</RowTemplate>
+</MudTable>
+
+
+@code {
+    // search
+    private string searchString = "";
+    private Team team = new Team();
+    private Player player = new Player();
+    private List<Team> teams = new List<Team>();
+	private List<Player> players = new List<Player>();
+
+	// When page loads, this function is called
+	// - after the page has loaded - every team is displayed
+	protected override async Task OnInitializedAsync()
+	{
+		teams = teamservice.GetAll();
+		players = playerservice.GetAll();
+	}
+
+	private bool Search(Player player)
+	{
+		if (string.IsNullOrWhiteSpace(searchString)) return true;
+		if (player.FirstName.Contains(searchString, StringComparison.OrdinalIgnoreCase)) return true;
+		if (player.LastName.Contains(searchString, StringComparison.OrdinalIgnoreCase)) return true;
+		return false;
+	}
+
+	private List<Player> GetAll()
+	{
+		players = playerservice.GetAll();
+		return players;
+	}
+
+	private void Add()
+	{
+		if (player.PlayerId == 0 && player.LastName != null)
+		{
+			playerservice.Add(player);
+			snackBar.Add($"Player {player.LastName} Added", Severity.Success);
+		}
+		else if (player.LastName == null) { snackBar.Add("Empty Input", Severity.Error); }
+		else
+		{
+			playerservice.Update(player);
+			snackBar.Add($"Player {player.LastName} Updated", Severity.Success);
+		}
+		player = new Player();
+		GetAll();
+	}
+
+	private void Update(Player record)
+	{
+		player = record;
+		StateHasChanged();
+	}
+	private void Delete(Player record)
+	{
+		playerservice.Delete(record);
+		GetAll();
+		snackBar.Add($"Player {player.LastName} Deleted", Severity.Success);
+	}
+}
