@@ -10,11 +10,11 @@
 <MudCard Elevation="25">
 	<MudCardHeader>
 		<CardHeaderContent>
-			<MudText Typo="Typo.h6">Players</MudText>
+			<MudText Typo="Typo.h6">Add / Edit Players</MudText>
 		</CardHeaderContent>
 	</MudCardHeader>
 	<MudCardContent>
-		<EditForm OnValidSubmit="Add" Model="@player">
+		<EditForm OnInvalidSubmit='Add' Model="@player">
 			<MudGrid>
 				<MudItem xs="12" sm="4" md="6">
 					<MudTextField Label="Lastname" Variant="Variant.Text" @bind-Value="player.LastName"></MudTextField>
@@ -40,7 +40,7 @@
 				</MudItem>
 			</MudGrid>
 			<br/>
-			<MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="Add"> Add Player</MudButton>
+			<MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="Add">Add Player</MudButton>
 		</EditForm>
 	</MudCardContent>
 </MudCard>
@@ -69,11 +69,11 @@
 
 
 @code {
-    // search
-    private string searchString = "";
-    private Team team = new Team();
-    private Player player = new Player();
-    private List<Team> teams = new List<Team>();
+	// search
+	private string searchString = "";
+	private Team team = new Team();
+	private Player player = new Player();
+	private List<Team> teams = new List<Team>();
 	private List<Player> players = new List<Player>();
 
 	// When page loads, this function is called
@@ -125,5 +125,6 @@
 		playerservice.Delete(record);
 		GetAll();
 		snackBar.Add($"Player {player.LastName} Deleted", Severity.Success);
+		StateHasChanged();
 	}
 }
