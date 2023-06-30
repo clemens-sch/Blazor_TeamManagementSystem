@@ -23,10 +23,10 @@
 					<MudTextField Label="Firstname" Variant="Variant.Text" @bind-Value="player.FirstName"></MudTextField>
 				</MudItem>
 				<MudItem xs="12" sm="4" md="6">
-					<MudSelect Label="Select Team" @bind-Value="team.TeamName">
+					<MudSelect Label="Select Team" @bind-Value="player.Team">
 						@foreach (var team in teams)
 						{
-							<MudSelectItem Value="@team.TeamName">@team.TeamName</MudSelectItem>
+							<MudSelectItem Value="@team">@team.TeamName</MudSelectItem>
 						}
 					</MudSelect>
 				</MudItem>
@@ -57,9 +57,13 @@
 		<MudTh>Firstname</MudTh>
 		<MudTh>Team</MudTh>
 		<MudTh>Position</MudTh>
+		<MudTh>Actions</MudTh>
 	</HeaderContent>
 	<RowTemplate>
-		<MudTd DataLabel="Team Name">@context.LastName</MudTd>
+		<MudTd DataLabel="Lastname">@context.LastName</MudTd>
+		<MudTd DataLabel="Firstname">@context.FirstName</MudTd>
+		<MudTd DataLabel="Team">@context.Team.TeamName</MudTd>
+		<MudTd DataLabel="Position">@context.EPosition</MudTd>
 		<MudTd DataLabel="Actions">
 			<MudFab OnClick="@(() => Update(context))" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small"></MudFab>
 			<MudFab OnClick="@(() => Delete(context))" Color="Color.Secondary" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small"></MudFab>
